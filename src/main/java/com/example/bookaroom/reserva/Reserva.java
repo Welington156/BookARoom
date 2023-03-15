@@ -22,10 +22,11 @@ public class Reserva {
                 && horaFim.compareTo(LocalTime.now()) < 1;
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Constructor">
+
     public Reserva() {}
 
     public Reserva(Reserva reserva) {
-        this();
         this.funcionario = reserva.funcionario;
         this.sala = reserva.sala;
         this.assunto = reserva.assunto;
@@ -35,13 +36,15 @@ public class Reserva {
         this.equipamentos = reserva.equipamentos;
     }
 
+    //  </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Getters/Setters">
 
     public LocalDate getDataAlocacao() {
         return dataAlocacao;
     }
 
-    public void setDataAlocacao(LocalDate dataAlocacao) {
+    protected void setDataAlocacao(LocalDate dataAlocacao) {
         this.dataAlocacao = dataAlocacao;
     }
 
@@ -49,7 +52,7 @@ public class Reserva {
         return horaInicio;
     }
 
-    public void setHoraInicio(LocalTime horaInicio) {
+    protected void setHoraInicio(LocalTime horaInicio) {
         this.horaInicio = horaInicio;
     }
 
@@ -57,7 +60,7 @@ public class Reserva {
         return horaFim;
     }
 
-    public void setHoraFim(LocalTime horaFim) {
+    protected void setHoraFim(LocalTime horaFim) {
         this.horaFim = horaFim;
     }
 
@@ -65,7 +68,7 @@ public class Reserva {
         return assunto;
     }
 
-    public void setAssunto(String assunto) {
+    protected void setAssunto(String assunto) {
         this.assunto = assunto;
     }
 
@@ -73,7 +76,7 @@ public class Reserva {
         return sala;
     }
 
-    public void setSala(Sala sala) {
+    protected void setSala(Sala sala) {
         this.sala = sala;
     }
 
@@ -81,7 +84,7 @@ public class Reserva {
         return funcionario;
     }
 
-    public void setFuncionario(Funcionario funcionario) {
+    protected void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
     }
 
@@ -89,7 +92,7 @@ public class Reserva {
         return equipamentos;
     }
 
-    public void setEquipamentos(List<Equipamento> equipamentos) {
+    protected void setEquipamentos(List<Equipamento> equipamentos) {
         this.equipamentos = equipamentos;
     }
     // </editor-fold>

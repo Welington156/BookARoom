@@ -4,10 +4,13 @@ public class Equipamento {
     private String nome;
     private String patrimonio;
 
+    // <editor-fold defaultstate="collapsed" desc="Constructor">
     public Equipamento(String nome, String patrimonio) {
         this.nome = nome;
         this.patrimonio = patrimonio;
     }
+
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public String getNome() {

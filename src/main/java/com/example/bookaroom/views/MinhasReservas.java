@@ -6,15 +6,17 @@ import com.example.bookaroom.reserva.ReservaControlador;
 import com.example.bookaroom.views.widgets.ReservaTitledPane;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 public class MinhasReservas extends VBox {
     private final Accordion reservasAccordion;
 
     {
         reservasAccordion = new Accordion();
-        reservasAccordion.setPrefHeight(400);
-        reservasAccordion.setPrefWidth(400);
+        reservasAccordion.setPrefWidth(200);
+
+        Label title = new Label("Minhas Reservas");
+        title.getStyleClass().add("property-name");
 
         Funcionario sessionUser = SessionControlador.getFuncionario();
 
@@ -23,7 +25,7 @@ public class MinhasReservas extends VBox {
         );
 
         getChildren().addAll(
-                new Label("Minhas Reservas"),
+                title,
                 reservasAccordion
         );
     }

@@ -7,10 +7,12 @@ public class Predio {
     private Campus campus;
     private List<Sala> salas;
 
+    // <editor-fold defaultstate="collapsed" desc="Constructor">
     public Predio(String nome, List<Sala> salas) {
         this.nome = nome;
         setSalas(salas);
     }
+    // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public String getNome() {

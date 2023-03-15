@@ -6,6 +6,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 public class PropriedadeItemLabel extends HBox {
+    Label nomeLabel;
+    Node valor;
+
     {
         setAlignment(Pos.BASELINE_LEFT);
     }
@@ -14,11 +17,19 @@ public class PropriedadeItemLabel extends HBox {
     }
 
     public PropriedadeItemLabel(String nome, Node valor) {
-        Label nomeLabel = new Label(nome + ": ");
+        this.valor = valor;
+        nomeLabel = new Label(nome + ": ");
         nomeLabel.getStyleClass().add("property-name");
         valor.getStyleClass().add("property-value");
+        nomeLabel.setAlignment(Pos.CENTER);
         getChildren().addAll(nomeLabel, valor);
     }
 
+    public Label getNomeLabel() {
+        return nomeLabel;
+    }
 
+    public Node getValor() {
+        return valor;
+    }
 }

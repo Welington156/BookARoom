@@ -1,18 +1,20 @@
 /* Style the headers */
 .accordion > .titled-pane > .title {
-    -fx-background-color: #f0f0f0;
-    -fx-font-weight: bold;
+    -fx-background-color: transparent;
 }
 
 /* Style the content */
 .accordion > .titled-pane > .content {
     -fx-padding: 10px;
-    -fx-background-color: #ffffff;
 }
 
 .property-name {
     -fx-font-size: 12pt;
     -fx-text-fill: gray;
+}
+
+.property-name-no-color {
+    -fx-font-size: 12pt;
 }
 
 .property-value {
@@ -29,3 +31,4 @@
     -fx-opacity: 1.0;
     -fx-text-fill: black;
 }
+

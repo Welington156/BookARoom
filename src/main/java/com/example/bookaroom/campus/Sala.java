@@ -10,14 +10,12 @@ public class Sala {
     private String numero;
     private Integer capacidade;
 
+    // <editor-fold defaultstate="collapsed" desc="Constructor">
     public Sala(String numero, Integer capacidade) {
         this.numero = numero;
         this.capacidade = capacidade;
     }
-
-    public Sala() {
-
-    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public String getNumero() {

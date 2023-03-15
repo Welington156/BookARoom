@@ -10,15 +10,16 @@ public class Campus {
     private String endereco;
     private List<Predio> predios;
     private List<Funcionario> funcionarios;
-
     private List<Equipamento> equipamentos;
 
+    // <editor-fold defaultstate="collapsed" desc="Constructor">
     public Campus(String nome, String endereco) {
         this.nome = nome;
         this.endereco = endereco;
         this.predios = new ArrayList<>();
         this.funcionarios = new ArrayList<>();
     }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public String getNome() {

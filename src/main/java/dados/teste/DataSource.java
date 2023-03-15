@@ -25,7 +25,6 @@ public final class DataSource {
     }
 
     public static List<Reserva> getReservas() {
-        System.out.println("Get Reservas - 2");
         return reservas;
     }
 
@@ -38,9 +37,8 @@ public final class DataSource {
     }
 
     private static void dadosIniciais() {
+
         // Funcionarios
-
-
         Funcionario neila = new Funcionario("Neila", "Professor", "20");
         Funcionario lucio = new Funcionario("Lucio", "Professor", "21");
         Funcionario alberto =  new Funcionario("Alberto", "Professor", "22");
@@ -71,11 +69,18 @@ public final class DataSource {
                 new Sala("3", 10)
         );
 
+        List<Sala> salasPredio3 = List.of(
+                new Sala("1", 40),
+                new Sala("2", 40),
+                new Sala("3", 10)
+        );
+
 
         List<Predio> predios = List.of(
                 new Predio("TI", salasTI),
                 new Predio("Medio", salasMedio),
-                new Predio("Secretaria", salasSecretaria)
+                new Predio("Secretaria", salasSecretaria),
+                new Predio("Predio3", salasPredio3)
         );
 
         // Reservas

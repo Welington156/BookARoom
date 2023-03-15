@@ -12,12 +12,21 @@ import java.util.List;
 
 public class CampusControlador {
 
+    public static Campus getCampus() {
+        return DataSource.getCampus();
+    }
+
     public static List<Sala> getSalas() {
         Campus campus = DataSource.getCampus();
 
         return new ArrayList<>() {{
            campus.getPredios().forEach(predio -> addAll(predio.getSalas()));
         }};
+    }
+
+    public static List<Predio> getPredios() {
+        Campus campus = DataSource.getCampus();
+        return campus.getPredios();
     }
 
     public static HashMap<Sala, List<Reserva>> salasPorPeriodo(Periodo periodo) {

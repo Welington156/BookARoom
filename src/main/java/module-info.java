@@ -3,6 +3,6 @@ module com.example.bookaroom {
     requires javafx.fxml;
 
 
-    opens com.example.bookaroom to javafx.fxml;
-    exports com.example.bookaroom;
+    opens com.example.bookaroom.views to javafx.fxml;
+    exports com.example.bookaroom.views;
 }
