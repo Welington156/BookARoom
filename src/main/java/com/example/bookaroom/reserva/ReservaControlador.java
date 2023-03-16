@@ -26,7 +26,7 @@ public class ReservaControlador {
         return output;
     }
 
-    public static Boolean temReservas(Sala sala, Periodo periodo) {
+    public static Boolean possuiResevasNoPeriodo(Sala sala, Periodo periodo) {
         List<Reserva> reservas = DataSource.getReservas();
 
         for(Reserva reserva : reservas) {
@@ -39,7 +39,7 @@ public class ReservaControlador {
         return false;
     }
 
-    public static Boolean temReservas(Funcionario funcionario, Periodo periodo) {
+    public static Boolean possuiResevasNoPeriodo(Funcionario funcionario, Periodo periodo) {
         List<Reserva> reservas = DataSource.getReservas();
 
         for(Reserva reserva : reservas) {
@@ -64,6 +64,7 @@ public class ReservaControlador {
 
         return output;
     }
+
 
     public static Reserva novaReserva(ReservaBuilder reservaBuilder) {
         Reserva novaReserva = reservaBuilder

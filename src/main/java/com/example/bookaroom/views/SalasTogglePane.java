@@ -26,7 +26,6 @@ public class SalasTogglePane extends ScrollPane {
 
     public SalasTogglePane(List<Predio> predios) {
         salasToggleGroup = new ToggleGroup();
-//        salasToggleGroup.selectedToggleProperty().addListener(this::togglePropertyListener);
 
         setPrefWidth(500);
         setMinHeight(400);
@@ -38,7 +37,7 @@ public class SalasTogglePane extends ScrollPane {
             Separator separator = new Separator();
             separator.setOrientation(Orientation.VERTICAL);
             prediosHBox.getChildren()
-                    .addAll(salaList(predio), separator);
+                    .addAll(salaListVBox(predio), separator);
         });
 
         setContent(prediosHBox);
@@ -51,7 +50,7 @@ public class SalasTogglePane extends ScrollPane {
         });
     }
 
-    private VBox salaList(Predio predio) {
+    private VBox salaListVBox(Predio predio) {
         VBox vBox = new VBox();
 
         Label title = new Label("Predio: " + predio.getNome());
