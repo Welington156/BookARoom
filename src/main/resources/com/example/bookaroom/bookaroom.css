@@ -32,3 +32,6 @@
     -fx-text-fill: black;
 }
 
+.info-message {
+    -fx-font-size: 12pt;
+}

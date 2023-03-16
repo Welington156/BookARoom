@@ -6,7 +6,7 @@ import javafx.scene.control.DatePicker;
 
 import java.time.LocalDate;
 
-public class DataField extends DatePicker {
+public class DateField extends DatePicker {
     {
         setDayCellFactory(picker -> new DateCell() {
             @Override

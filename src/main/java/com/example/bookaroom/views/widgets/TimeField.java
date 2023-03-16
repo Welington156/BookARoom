@@ -18,7 +18,11 @@ public class TimeField extends TextField {
     }
 
     private Boolean checkTimePattern(String str) {
-        return Pattern.matches("^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$", str);
+        return Pattern.matches("^([0-1]?[0-9]|2[0-3]):[0-9][0-9]$", str);
+    }
+
+    public Boolean isValid() {
+        return Pattern.matches("^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$", getText());
     }
 
     private void onMouseOrKeyEvent(Event event) {

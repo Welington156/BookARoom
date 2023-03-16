@@ -18,11 +18,17 @@ public class Periodo {
         this.horaFim = horaFim;
     }
 
-
     public Periodo(String data, String horaInicio, String horaFim) {
         this(LocalDate.parse(data, FORMATO_DATA),
                 LocalTime.parse(horaInicio, FORMATO_HORA),
                 LocalTime.parse(horaFim, FORMATO_HORA)
         );
+    }
+
+    public Boolean checkOverlap(Periodo periodo) {
+        boolean flag = periodo.data.equals(data);
+        flag = flag && periodo.horaInicio.isBefore(horaFim) && periodo.horaFim.isAfter(horaInicio);
+
+        return flag;
     }
 }

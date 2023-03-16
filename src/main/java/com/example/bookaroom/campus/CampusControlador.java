@@ -29,9 +29,15 @@ public class CampusControlador {
         return campus.getPredios();
     }
 
-    public static HashMap<Sala, List<Reserva>> salasPorPeriodo(Periodo periodo) {
+    public static HashMap<Sala, List<Reserva>> reservaDeSalasPorPeriodo(Periodo periodo) {
         return new HashMap<>(){{
             getSalas().forEach(sala -> put(sala, ReservaControlador.reservasPeriodo(sala, periodo)));
+        }};
+    }
+
+    public static HashMap<Sala, Boolean> salasDisponiveisPorPeriodo(Periodo periodo) {
+        return new HashMap<>() {{
+            getSalas().forEach(sala -> put(sala, !ReservaControlador.temReservas(sala, periodo)));
         }};
     }
 
@@ -47,4 +53,10 @@ public class CampusControlador {
 
         return funcionario;
     }
+
+    public static Boolean funcionarioEstaDisponivel(Funcionario funcionario, Periodo periodo) {
+        return !ReservaControlador.temReservas(funcionario, periodo);
+    }
 }
+
+

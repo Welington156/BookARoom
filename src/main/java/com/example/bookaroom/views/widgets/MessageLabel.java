@@ -5,7 +5,8 @@ import javafx.scene.paint.Color;
 
 public class MessageLabel extends Label {
     public MessageLabel(String texto, Color color) {
-        this.setText(texto);
-        this.setTextFill(color);
+        setText(texto);
+        setTextFill(color);
+        getStyleClass().add("info-message");
     }
 }

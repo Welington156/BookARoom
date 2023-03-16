@@ -3,6 +3,7 @@ package com.example.bookaroom.reserva;
 import com.example.bookaroom.campus.Equipamento;
 import com.example.bookaroom.funcionario.Funcionario;
 import com.example.bookaroom.campus.Sala;
+import com.example.bookaroom.util.Periodo;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -18,8 +19,7 @@ public class Reserva {
     private List<Equipamento> equipamentos;
 
     public boolean ativo() {
-        return dataAlocacao.equals(LocalDate.now())
-                && horaFim.compareTo(LocalTime.now()) < 1;
+        return true;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Constructor">
@@ -39,6 +39,10 @@ public class Reserva {
     //  </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Getters/Setters">
+
+    public Periodo getPeriodo() {
+        return new Periodo(getDataAlocacao(), getHoraInicio(), getHoraFim());
+    }
 
     public LocalDate getDataAlocacao() {
         return dataAlocacao;
@@ -95,5 +99,7 @@ public class Reserva {
     protected void setEquipamentos(List<Equipamento> equipamentos) {
         this.equipamentos = equipamentos;
     }
+
+    protected void addEquipamento(Equipamento equipamento) { this.equipamentos.add(equipamento); }
     // </editor-fold>
 }

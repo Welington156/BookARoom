@@ -2,6 +2,7 @@ package com.example.bookaroom.views;
 
 import com.example.bookaroom.funcionario.Funcionario;
 import com.example.bookaroom.funcionario.SessionControlador;
+import com.example.bookaroom.reserva.Reserva;
 import com.example.bookaroom.reserva.ReservaControlador;
 import com.example.bookaroom.views.widgets.ReservaTitledPane;
 import javafx.scene.control.Accordion;
@@ -20,13 +21,15 @@ public class MinhasReservas extends VBox {
 
         Funcionario sessionUser = SessionControlador.getFuncionario();
 
-        ReservaControlador.reservasFuncionario(sessionUser).forEach(
-                reserva -> reservasAccordion.getPanes().add(new ReservaTitledPane(reserva))
-        );
+        ReservaControlador.reservasFuncionario(sessionUser).forEach(this::addReservaCard);
 
         getChildren().addAll(
                 title,
                 reservasAccordion
         );
+    }
+
+    public void addReservaCard(Reserva reserva) {
+        reservasAccordion.getPanes().add(new ReservaTitledPane(reserva));
     }
 }

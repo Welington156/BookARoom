@@ -1,6 +1,5 @@
 package com.example.bookaroom.views;
 
-import com.example.bookaroom.campus.CampusControlador;
 import com.example.bookaroom.campus.Predio;
 import com.example.bookaroom.campus.Sala;
 import com.example.bookaroom.views.widgets.SalaItem;
@@ -10,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class SalasTogglePane extends ScrollPane {
@@ -19,25 +19,19 @@ public class SalasTogglePane extends ScrollPane {
             this.sala = sala;
         }
     }
-    private final HBox prediosHBox;
+
+    HashMap<Sala, SalaItem> toggleItems = new HashMap<>();
 
     private final ToggleGroup salasToggleGroup;
 
-    public SalasTogglePane() {
+    public SalasTogglePane(List<Predio> predios) {
         salasToggleGroup = new ToggleGroup();
-        salasToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                System.out.println("Selected: " + ((SalaToggleButton) newValue).sala.getNumero());
-            }
-        });
-
-        List<Predio> predios = CampusControlador.getPredios();
+//        salasToggleGroup.selectedToggleProperty().addListener(this::togglePropertyListener);
 
         setPrefWidth(500);
         setMinHeight(400);
 
-        prediosHBox = new HBox();
-
+        HBox prediosHBox = new HBox();
         prediosHBox.setSpacing(30);
 
         predios.forEach(predio -> {
@@ -48,6 +42,13 @@ public class SalasTogglePane extends ScrollPane {
         });
 
         setContent(prediosHBox);
+    }
+
+
+    public void filter(HashMap<Sala, Boolean> salasOcupacao) {
+        toggleItems.forEach((sala, salaItem) -> {
+            salaItem.setDisponibilidade(salasOcupacao.get(sala));
+        });
     }
 
     private VBox salaList(Predio predio) {
@@ -64,8 +65,23 @@ public class SalasTogglePane extends ScrollPane {
             radioButton.setToggleGroup(salasToggleGroup);
             SalaItem salaCard = new SalaItem(sala, radioButton);
             vBox.getChildren().add(salaCard);
+            toggleItems.put(sala, salaCard);
         });
 
         return vBox;
+    }
+
+    public SalaItem getSelected() {
+        RadioButton selected = (RadioButton)salasToggleGroup.getSelectedToggle();
+        if (selected == null) return null;
+
+        return (SalaItem) selected.getParent();
+    }
+
+    public Sala getSalaSelecionada() {
+        SalaToggleButton selected = (SalaToggleButton)salasToggleGroup.getSelectedToggle();
+        if(selected == null) return null;
+
+        return selected.sala;
     }
 }
