@@ -1,15 +1,16 @@
 package com.example.bookaroom.reserva;
 
 import com.example.bookaroom.campus.Equipamento;
-import com.example.bookaroom.funcionario.Funcionario;
+import com.example.bookaroom.campus.Funcionario;
 import com.example.bookaroom.campus.Sala;
 import com.example.bookaroom.util.Periodo;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Reserva {
+public class Reserva implements Comparable<Reserva> {
     private LocalDate dataAlocacao;
     private LocalTime horaInicio;
     private LocalTime horaFim;
@@ -18,23 +19,36 @@ public class Reserva {
     private Funcionario funcionario;
     private List<Equipamento> equipamentos;
 
-    public boolean ativo() {
-        return true;
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Reserva other)) {
+            return false;
+        }
+
+        return getPeriodo().equals(other.getPeriodo())
+                && getFuncionario().equals(other.funcionario)
+                && getSala().equals(other.sala);
+    }
+
+    @Override
+    public int compareTo(Reserva o) {
+        return getPeriodo().compareTo(o.getPeriodo());
     }
 
     // <editor-fold defaultstate="collapsed" desc="Constructor">
 
-    public Reserva() {}
-
-    public Reserva(Reserva reserva) {
-        this.funcionario = reserva.funcionario;
-        this.sala = reserva.sala;
-        this.assunto = reserva.assunto;
-        this.horaInicio = reserva.horaInicio;
-        this.horaFim = reserva.horaFim;
-        this.dataAlocacao = reserva.dataAlocacao;
-        this.equipamentos = reserva.equipamentos;
+    public Reserva(Periodo periodo, Funcionario funcionario, Sala sala, String assunto, ArrayList<Equipamento> equipamentos) {
+        this.funcionario = funcionario;
+        this.sala = sala;
+        this.assunto = assunto;
+        this.horaInicio = periodo.horaInicio;
+        this.horaFim = periodo.horaFim;
+        this.dataAlocacao = periodo.data;
+        this.equipamentos = equipamentos;
     }
+
+    public Reserva() {}
 
     //  </editor-fold>
 
@@ -48,58 +62,29 @@ public class Reserva {
         return dataAlocacao;
     }
 
-    protected void setDataAlocacao(LocalDate dataAlocacao) {
-        this.dataAlocacao = dataAlocacao;
-    }
-
     public LocalTime getHoraInicio() {
         return horaInicio;
-    }
-
-    protected void setHoraInicio(LocalTime horaInicio) {
-        this.horaInicio = horaInicio;
     }
 
     public LocalTime getHoraFim() {
         return horaFim;
     }
 
-    protected void setHoraFim(LocalTime horaFim) {
-        this.horaFim = horaFim;
-    }
-
     public String getAssunto() {
         return assunto;
-    }
-
-    protected void setAssunto(String assunto) {
-        this.assunto = assunto;
     }
 
     public Sala getSala() {
         return sala;
     }
 
-    protected void setSala(Sala sala) {
-        this.sala = sala;
-    }
-
     public Funcionario getFuncionario() {
         return funcionario;
-    }
-
-    protected void setFuncionario(Funcionario funcionario) {
-        this.funcionario = funcionario;
     }
 
     public List<Equipamento> getEquipamentos() {
         return equipamentos;
     }
 
-    protected void setEquipamentos(List<Equipamento> equipamentos) {
-        this.equipamentos = equipamentos;
-    }
-
-    protected void addEquipamento(Equipamento equipamento) { this.equipamentos.add(equipamento); }
     // </editor-fold>
 }

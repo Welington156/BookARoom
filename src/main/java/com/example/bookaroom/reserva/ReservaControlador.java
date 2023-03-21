@@ -1,76 +1,71 @@
 package com.example.bookaroom.reserva;
 
-import com.example.bookaroom.campus.Sala;
-import com.example.bookaroom.funcionario.Funcionario;
-import com.example.bookaroom.funcionario.SessionControlador;
-import com.example.bookaroom.util.Periodo;
+import com.example.bookaroom.campus.Equipamento;
 import dados.teste.DataSource;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
 
 
 public class ReservaControlador {
+    List<Reserva> reservas;
 
-    public static List<Reserva> reservasPeriodo(Sala sala, Periodo periodo) {
-        List<Reserva> reservas = DataSource.getReservas();
+    // <editor-fold defaultstate="collapsed" desc="Constructor">
 
-        List<Reserva> output = new ArrayList<>();
-        for(Reserva reserva : reservas) {
-            if(sala.equals(reserva.getSala())
-                    && reserva.getPeriodo().checkOverlap(periodo)) {
-                output.add(reserva);
-            }
+    public ReservaControlador() {
+        this(DataSource.getReservas());
+    }
+
+    private ReservaControlador(List<Reserva> reservas) { this.reservas = List.copyOf(reservas); }
+
+    // </editor-fold>
+
+    public ReservaControlador filtrarPor(Reservavel ...reservaveis) {
+
+        Stream<Reserva> reservasStream = reservas.stream();
+        for(Reservavel reservavel : reservaveis) {
+            reservasStream = reservasStream.filter(reservavel::contidoEm);
         }
 
-        return output;
+        return new ReservaControlador(reservasStream.toList());
     }
 
-    public static Boolean possuiResevasNoPeriodo(Sala sala, Periodo periodo) {
-        List<Reserva> reservas = DataSource.getReservas();
-
-        for(Reserva reserva : reservas) {
-            if(sala.equals(reserva.getSala())
-                    && reserva.getPeriodo().checkOverlap(periodo)
-            ) {
-                return true;
-            }
-        }
-        return false;
+    public boolean hasAny() {
+        return !reservas.isEmpty();
     }
 
-    public static Boolean possuiResevasNoPeriodo(Funcionario funcionario, Periodo periodo) {
-        List<Reserva> reservas = DataSource.getReservas();
-
-        for(Reserva reserva : reservas) {
-            if(funcionario.equals(reserva.getFuncionario())
-                    && reserva.getPeriodo().checkOverlap(periodo)
-            ) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static List<Reserva> reservasFuncionario(Funcionario funcionario) {
-        List<Reserva> reservas = DataSource.getReservas();
-
-        List<Reserva> output = new ArrayList<>();
-
-        reservas.forEach(reserva -> {
-            if (reserva.getFuncionario().equals(funcionario))
-                output.add(reserva);
-        });
-
-        return output;
+    public List<Reserva> get() {
+        return List.copyOf(reservas);
     }
 
 
-    public static Reserva novaReserva(ReservaBuilder reservaBuilder) {
-        Reserva novaReserva = reservaBuilder
-                .setFuncionario(SessionControlador.getFuncionario())
-                .get();
+    public static Reserva updateReserva(Reserva reserva) {
+        return DataSource.updateReserva(reserva);
+    }
+
+    public static Reserva cadastrarReserva(Reserva novaReserva) throws IllegalStateException {
+        validarCadastro(novaReserva);
         DataSource.addReserva(novaReserva);
+
         return novaReserva;
+    }
+
+    public static void validarCadastro(Reserva reserva) throws IllegalStateException {
+        ReservaControlador reservaControlador = new ReservaControlador().filtrarPor(reserva.getPeriodo());
+
+        if(reservaControlador.filtrarPor(reserva.getSala()).hasAny()) {
+            throw new IllegalStateException("Sala ja possui reservas nesse periodo");
+        }
+
+        if(reservaControlador.filtrarPor(reserva.getFuncionario()).hasAny()){
+            throw new IllegalStateException("Funcionario ja possui reservas nesse periodo");
+        }
+
+        reserva.getEquipamentos().forEach(equipamento -> {
+            if(reservaControlador.filtrarPor(equipamento).hasAny()) {
+                throw new IllegalStateException("Equipamento " + equipamento.getPatrimonio() + " ja possui reservas nesse periodo");
+            }
+
+        });
     }
 }

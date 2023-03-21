@@ -1,4 +1,4 @@
-package com.example.bookaroom.views.widgets;
+package com.example.bookaroom.gui.widgets;
 
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;

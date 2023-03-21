@@ -1,13 +1,18 @@
-package com.example.bookaroom.views.widgets;
+package com.example.bookaroom.gui.widgets;
 
 import com.example.bookaroom.reserva.Reserva;
+import com.example.bookaroom.gui.App;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 
 import java.time.format.DateTimeFormatter;
 
 public class ReservaTitledPane extends TitledPane {
+    Reserva reserva;
     public ReservaTitledPane(Reserva reserva) {
+        this.reserva = reserva;
         setGraphic(itemCollapsed(reserva));
         setContent(itemExpanded(reserva));
     }
@@ -28,6 +33,8 @@ public class ReservaTitledPane extends TitledPane {
 
     private VBox itemExpanded(Reserva reserva) {
         VBox expandedVbox = new VBox();
+        Button addEquipamentosBtn = new Button("Editar");
+        addEquipamentosBtn.setOnAction(this::addEquipamentosAction);
 
         String sala = reserva.getSala().getNumero(),
                 predio = reserva.getSala().getPredio().getNome(),
@@ -46,9 +53,14 @@ public class ReservaTitledPane extends TitledPane {
                 new PropriedadeItemLabel("Capacidade", capacidade),
                 new PropriedadeItemLabel("Data", data),
                 new PropriedadeItemLabel("Horário", horario),
-                new PropriedadeItemLabel("Assunto", assunto)
+                new PropriedadeItemLabel("Assunto", assunto),
+                addEquipamentosBtn
         );
 
         return expandedVbox;
+    }
+
+    private void addEquipamentosAction(ActionEvent actionEvent) {
+        App.toEditarReservaScreen(reserva);
     }
 }

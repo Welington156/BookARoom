@@ -1,4 +1,4 @@
-package com.example.bookaroom.views.converters;
+package com.example.bookaroom.gui.converters;
 
 import javafx.util.StringConverter;
 

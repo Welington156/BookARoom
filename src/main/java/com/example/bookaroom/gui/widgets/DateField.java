@@ -1,6 +1,6 @@
-package com.example.bookaroom.views.widgets;
+package com.example.bookaroom.gui.widgets;
 
-import com.example.bookaroom.views.converters.DateConverter;
+import com.example.bookaroom.gui.converters.DateConverter;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 

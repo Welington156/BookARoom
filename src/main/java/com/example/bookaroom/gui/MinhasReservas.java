@@ -1,10 +1,7 @@
-package com.example.bookaroom.views;
+package com.example.bookaroom.gui;
 
-import com.example.bookaroom.funcionario.Funcionario;
-import com.example.bookaroom.funcionario.SessionControlador;
 import com.example.bookaroom.reserva.Reserva;
-import com.example.bookaroom.reserva.ReservaControlador;
-import com.example.bookaroom.views.widgets.ReservaTitledPane;
+import com.example.bookaroom.gui.widgets.ReservaTitledPane;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
@@ -19,9 +16,9 @@ public class MinhasReservas extends VBox {
         Label title = new Label("Minhas Reservas");
         title.getStyleClass().add("property-name");
 
-        Funcionario sessionUser = SessionControlador.getFuncionario();
-
-        ReservaControlador.reservasFuncionario(sessionUser).forEach(this::addReservaCard);
+        App.bookARoomApi()
+                .getMinhasReservas()
+                .forEach(this::addReservaCard);
 
         getChildren().addAll(
                 title,

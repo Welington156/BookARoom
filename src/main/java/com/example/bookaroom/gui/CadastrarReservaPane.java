@@ -1,17 +1,9 @@
-package com.example.bookaroom.views;
+package com.example.bookaroom.gui;
 
-import com.example.bookaroom.campus.CampusControlador;
 import com.example.bookaroom.campus.Sala;
-import com.example.bookaroom.funcionario.Funcionario;
-import com.example.bookaroom.funcionario.SessionControlador;
 import com.example.bookaroom.reserva.Reserva;
-import com.example.bookaroom.reserva.ReservaBuilder;
-import com.example.bookaroom.reserva.ReservaControlador;
 import com.example.bookaroom.util.Periodo;
-import com.example.bookaroom.views.widgets.DateField;
-import com.example.bookaroom.views.widgets.MessageLabel;
-import com.example.bookaroom.views.widgets.PropriedadeItemLabel;
-import com.example.bookaroom.views.widgets.TimeField;
+import com.example.bookaroom.gui.widgets.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -24,7 +16,7 @@ import javafx.scene.paint.Color;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 
-public class FazerReserva extends GridPane {
+public class CadastrarReservaPane extends GridPane {
     @FunctionalInterface
     public interface OnReservaCreateEvent {
         void onResevaCreate(Reserva reserva);
@@ -56,9 +48,9 @@ public class FazerReserva extends GridPane {
         PropriedadeItemLabel periodoPane = new PropriedadeItemLabel("Horario", periodoBox);
         PropriedadeItemLabel assuntoTextArea = new PropriedadeItemLabel("Assunto", assuntoTextField);
 
-        salasTogglePane = new SalasTogglePane(CampusControlador.getPredios());
+        salasTogglePane = new SalasTogglePane(App.bookARoomApi().getPredios());
 
-        Label title = new Label("Buscar Salas Disponiveis / Cadastrar Reserva");
+        Label title = new Label("Cadastrar Reserva");
         title.getStyleClass().add("property-name");
 
         Button filtrarSalasBtn = new Button("Filtrar");
@@ -90,6 +82,7 @@ public class FazerReserva extends GridPane {
 
 
     private void cadastrarReservaAction(ActionEvent actionEvent) {
+        hiddenMessage();
         filtrarSalasAction(null);
 
         String inputsErr = validarReservaInputs();
@@ -98,31 +91,28 @@ public class FazerReserva extends GridPane {
             return;
         }
 
-        String funcionarioErr = validarFuncionario();
-        if(funcionarioErr != null){
-            showError(funcionarioErr);
-            return;
-        }
-
         Periodo periodo = new Periodo(dataField.getText(),
                 inicioTimeField.getText(),
                 fimTimeField.getText());
+        Sala sala = salasTogglePane.getSalaSelecionada();
+        String assunto = assuntoTextField.getText();
 
-        ReservaBuilder reservaBuilder = new ReservaBuilder();
-        reservaBuilder.setPeriodo(periodo);
-        reservaBuilder.setSala(salasTogglePane.getSalaSelecionada());
-        reservaBuilder.setAssunto(assuntoTextField.getText());
+        try {
+            Reserva novaReserva = App.bookARoomApi().cadastrarReserva(periodo, sala, assunto);
 
-        Reserva novaReserva = ReservaControlador.novaReserva(reservaBuilder);
+            showInfo("Sucesso ao cadastrar reserva!");
 
-        showInfo("Sucesso ao cadastrar reserva!");
+            if(onReservaCreateEvent != null) {
+                onReservaCreateEvent.onResevaCreate(novaReserva);
+            }
 
-        if(onReservaCreateEvent != null) {
-            onReservaCreateEvent.onResevaCreate(novaReserva);
+        } catch (IllegalStateException e) {
+            showError(e.getMessage());
         }
     }
 
     private void filtrarSalasAction(ActionEvent actionEvent) {
+        hiddenMessage();
         String validacaoErr = validarPeriodoInput();
 
         if(validacaoErr != null){
@@ -130,7 +120,7 @@ public class FazerReserva extends GridPane {
             return;
         }
 
-        HashMap<Sala, Boolean> salasDisponiveis = CampusControlador.salasDisponiveisPorPeriodo(new Periodo(
+        HashMap<Sala, Boolean> salasDisponiveis = App.bookARoomApi().ocupacaoSalas(new Periodo(
                 dataField.getText(),
                 inicioTimeField.getText(),
                 fimTimeField.getText()
@@ -139,24 +129,7 @@ public class FazerReserva extends GridPane {
         salasTogglePane.filter(salasDisponiveis);
     }
 
-    // Validações
-    private String validarFuncionario() {
-        Funcionario funcionario = SessionControlador.getFuncionario();
-
-        Periodo periodo = new Periodo(dataField.getText(),
-                inicioTimeField.getText(),
-                fimTimeField.getText());
-
-        if(funcionario == null) {
-            return "Você Precisa estar logado.";
-        }
-
-        if(!CampusControlador.funcionarioEstaDisponivel(funcionario, periodo)){
-            return "Você já possui reserva(s) nesse invervalo de tempo.";
-        }
-
-        return null;
-    }
+    // Validações de inputs
 
     private String validarPeriodoInput() {
         try {
@@ -209,6 +182,10 @@ public class FazerReserva extends GridPane {
     private void showInfo(String text) {
         infoMessage.setTextFill(Color.GREEN);
         infoMessage.setText(text);
+    }
+
+    private void hiddenMessage() {
+        infoMessage.setText("");
     }
 
     // Eventos

@@ -1,10 +1,9 @@
-package com.example.bookaroom.views.screens;
+package com.example.bookaroom.gui.screens;
 
 import com.example.bookaroom.Main;
-import com.example.bookaroom.funcionario.SessionControlador;
-import com.example.bookaroom.views.App;
-import com.example.bookaroom.views.widgets.MessageLabel;
-import com.example.bookaroom.views.widgets.PropriedadeItemLabel;
+import com.example.bookaroom.gui.App;
+import com.example.bookaroom.gui.widgets.MessageLabel;
+import com.example.bookaroom.gui.widgets.PropriedadeItemLabel;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -48,14 +47,14 @@ public class LoginScreen extends Scene {
         gridPane.add(loginButton, 0, 3);
     }
 
-    private void entrarAction(ActionEvent e) {
-        String name = nameField.getText();
-        SessionControlador.createSession(name);
+    private void entrarAction(ActionEvent actionEvent) {
+        String nomeFuncionario = nameField.getText();
+        String nomeCampus = campusComboBox.getValue();
 
-        if (SessionControlador.getFuncionario() != null) {
-            App.loadReservaScreen();
-        } else {
-            errorMessage.setText("Funcionario não encontrado");
+        try{
+            App.login(nomeCampus, nomeFuncionario);
+        } catch (IllegalStateException e) {
+            errorMessage.setText(e.getMessage());
         }
     }
 }

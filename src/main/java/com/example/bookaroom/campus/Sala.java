@@ -1,14 +1,19 @@
 package com.example.bookaroom.campus;
 
-import com.example.bookaroom.campus.Predio;
+import com.example.bookaroom.reserva.Reservavel;
 import com.example.bookaroom.reserva.Reserva;
 
-import java.util.List;
-
-public class Sala {
+public class Sala implements Reservavel {
     private Predio predio;
-    private String numero;
-    private Integer capacidade;
+    private final String numero;
+    private final Integer capacidade;
+
+    // <editor-fold defaultstate="collapsed" desc="ItemReservavel">
+    @Override
+    public boolean contidoEm(Reserva reserva) {
+        return reserva.getSala().equals(this);
+    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Constructor">
     public Sala(String numero, Integer capacidade) {
@@ -22,23 +27,15 @@ public class Sala {
         return numero;
     }
 
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-
     public Integer getCapacidade() {
         return capacidade;
-    }
-
-    public void setCapacidade(Integer capacidade) {
-        this.capacidade = capacidade;
     }
 
     public Predio getPredio() {
         return predio;
     }
 
-    public void setPredio(Predio predio) {
+    protected void setPredio(Predio predio) {
         this.predio = predio;
     }
 

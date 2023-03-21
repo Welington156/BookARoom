@@ -1,8 +1,7 @@
-package com.example.bookaroom.views;
+package com.example.bookaroom.gui.widgets;
 
 import com.example.bookaroom.campus.Predio;
 import com.example.bookaroom.campus.Sala;
-import com.example.bookaroom.views.widgets.SalaItem;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.control.*;

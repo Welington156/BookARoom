@@ -19,23 +19,19 @@ public class Predio {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public Campus getCampus() {
         return campus;
-    }
-
-    public void setCampus(Campus campus) {
-        this.campus = campus;
     }
 
     public List<Sala> getSalas() {
         return salas;
     }
 
-    public void setSalas(List<Sala> salas) {
+    protected void setCampus(Campus campus) {
+        this.campus = campus;
+    }
+
+    protected void setSalas(List<Sala> salas) {
         salas.forEach(sala -> sala.setPredio(this));
         this.salas = salas;
     }

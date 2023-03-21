@@ -1,13 +1,9 @@
-package com.example.bookaroom.views.widgets;
+package com.example.bookaroom.gui.widgets;
 
 import com.example.bookaroom.campus.Sala;
-import javafx.beans.Observable;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;

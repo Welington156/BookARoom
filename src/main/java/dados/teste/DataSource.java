@@ -4,9 +4,8 @@ import com.example.bookaroom.campus.Campus;
 import com.example.bookaroom.campus.Equipamento;
 import com.example.bookaroom.campus.Predio;
 import com.example.bookaroom.campus.Sala;
-import com.example.bookaroom.funcionario.Funcionario;
+import com.example.bookaroom.campus.Funcionario;
 import com.example.bookaroom.reserva.Reserva;
-import com.example.bookaroom.reserva.ReservaBuilder;
 import com.example.bookaroom.util.Periodo;
 
 import java.time.LocalDate;
@@ -15,28 +14,45 @@ import java.util.List;
 
 public final class DataSource {
     private static final String AMANHA = LocalDate.now().plusDays(1).format(Periodo.FORMATO_DATA);
-    private static final Campus campus;
+    private static final List<Campus> campi;
     private static final List<Reserva> reservas;
 
     static {
-        campus = new Campus("MOCHELL", "Rua 2");
+        campi = new ArrayList<>();
         reservas = new ArrayList<>();
+
         dadosIniciais();
     }
 
     public static List<Reserva> getReservas() {
-        return reservas;
+        return List.copyOf(reservas);
     }
 
-    public static Campus getCampus() {
-        return campus;
+    public static Campus getCampus(String nome) {
+        return campi.stream()
+                .filter(campus -> campus.getNome().equals(nome))
+                .findFirst()
+                .orElse(null);
     }
+
 
     public static void addReserva(Reserva reserva) {
         reservas.add(reserva);
     }
 
+    public static Reserva updateReserva(Reserva reserva) {
+        int index = reservas.indexOf(reserva);
+        if(index != -1) {
+            reservas.remove(index);
+            reservas.add(reserva);
+            return reserva;
+        }
+        return null;
+    }
+
     private static void dadosIniciais() {
+        // Campus
+
 
         // Funcionarios
         Funcionario neila = new Funcionario("Neila", "Professor", "20");
@@ -84,45 +100,66 @@ public final class DataSource {
         );
 
         // Reservas
-        ReservaBuilder reservaBuilder = new ReservaBuilder();
         // Reservas Neila
 
-        // - Calc 1
-        reservaBuilder
-                .setAssunto("Calc 1")
-                .setFuncionario(neila)
-                .setSala(salasTI.get(0));
+        // -- Calc 1
 
-        reservas.add(reservaBuilder.setPeriodo(AMANHA, "08:20", "09:00").get());
-        reservas.add(reservaBuilder.setPeriodo(AMANHA, "15:00", "17:40").get());
+        addReserva(new Reserva(
+                new Periodo(AMANHA, "08:20", "09:00"),
+                neila,
+                salasTI.get(0),
+                "Calc 1",
+                new ArrayList<>()
+        ));
 
-        // - Matematica
-        reservaBuilder
-                .setAssunto("Matematica")
-                .setSala(salasMedio.get(1));
+        addReserva(new Reserva(
+                new Periodo(AMANHA, "15:00", "17:40"),
+                neila,
+                salasTI.get(0),
+                "Calc 1",
+                new ArrayList<>()
+        ));
 
-        reservas.add(reservaBuilder.setPeriodo(AMANHA, "09:20", "11:00").get());
-        reservas.add(reservaBuilder.setPeriodo(AMANHA, "11:00", "12:40").get());
+        // -- Matematica
+        addReserva(new Reserva(
+                new Periodo(AMANHA, "09:20", "11:00"),
+                neila,
+                salasMedio.get(1),
+                "Matematica",
+                new ArrayList<>()
+        ));
+
+        addReserva(new Reserva(
+                new Periodo(AMANHA, "11:00", "12:40"),
+                neila,
+                salasMedio.get(1),
+                "Matematica",
+                new ArrayList<>()
+        ));
 
         // Reservas Lucio
-        reservaBuilder
-                .setFuncionario(lucio)
-                .setAssunto("Banco de Dados")
-                .setSala(salasMedio.get(0))
-                .setPeriodo(AMANHA, "11:00", "12:40");
+        addReserva(new Reserva(
+                new Periodo(AMANHA, "11:00", "12:40"),
+                lucio,
+                salasMedio.get(0),
+                "Banco de Dados",
+                new ArrayList<>()
+        ));
 
-        reservas.add(reservaBuilder.get());
+        addReserva(new Reserva(
+                new Periodo(AMANHA, "15:20", "17:00"),
+                lucio,
+                salasTI.get(1),
+                "Banco de Dados",
+                new ArrayList<>()
+        ));
 
-        reservaBuilder
-                .setSala(salasTI.get(1))
-                .setPeriodo(AMANHA, "15:20", "17:00");
-
-        reservas.add(reservaBuilder.get());
-
-
-        campus.setFuncionarios(funcionarios);
-        campus.setPredios(predios);
-        campus.setEquipamentos(equipamentos);
+        campi.add(new Campus(
+                "MOCHELL",
+                "Rua 2",
+                predios,
+                funcionarios,
+                equipamentos));
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.bookaroom.views.widgets;
+package com.example.bookaroom.gui.widgets;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;

@@ -1,8 +1,18 @@
 package com.example.bookaroom.campus;
 
-public class Equipamento {
-    private String nome;
-    private String patrimonio;
+import com.example.bookaroom.reserva.Reservavel;
+import com.example.bookaroom.reserva.Reserva;
+
+public class Equipamento implements Reservavel {
+    private final String nome;
+    private final String patrimonio;
+
+    // <editor-fold defaultstate="collapsed" desc="ItemReservavel">
+    @Override
+    public boolean contidoEm(Reserva reserva) {
+        return reserva.getEquipamentos().contains(this);
+    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Constructor">
     public Equipamento(String nome, String patrimonio) {
@@ -17,17 +27,15 @@ public class Equipamento {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public String getPatrimonio() {
         return patrimonio;
     }
 
-    public void setPatrimonio(String patrimonio) {
-        this.patrimonio = patrimonio;
-    }
-
     // </editor-fold>
+
+
+    @Override
+    public String toString() {
+        return getNome() + " - " + getPatrimonio();
+    }
 }
