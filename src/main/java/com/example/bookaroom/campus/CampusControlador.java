@@ -36,6 +36,15 @@ public class CampusControlador {
         }};
     }
 
+    public HashMap<Sala, List<Reserva>> reservasPorSala(Periodo periodo) {
+        ReservaControlador reservaControlador = new ReservaControlador().filtrarPor(periodo);
+
+        return new HashMap<>() {{
+            getSalas().forEach(
+                    sala -> put(sala, reservaControlador.filtrarPor(sala).get()));
+        }};
+    }
+
     public List<Equipamento> equipamentosDisponiveis(Periodo periodo) {
         ReservaControlador reservaControlador = new ReservaControlador().filtrarPor(periodo);
 

@@ -44,4 +44,10 @@ public class Campus {
     }
 
     // </editor-fold>
+
+
+    @Override
+    public String toString() {
+        return getNome();
+    }
 }

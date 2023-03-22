@@ -36,4 +36,10 @@ public class Predio {
         this.salas = salas;
     }
     //    </editor-fold>
+
+
+    @Override
+    public String toString() {
+        return this.campus.toString() + " - " + this.getNome();
+    }
 }

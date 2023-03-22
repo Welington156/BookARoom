@@ -40,4 +40,10 @@ public class Sala implements Reservavel {
     }
 
     // </editor-fold>
+
+
+    @Override
+    public String toString() {
+        return this.getPredio().toString() + " - " + this.numero;
+    }
 }

@@ -3,11 +3,13 @@ package com.example.bookaroom;
 import com.example.bookaroom.campus.*;
 import com.example.bookaroom.reserva.Reserva;
 import com.example.bookaroom.reserva.ReservaControlador;
+import com.example.bookaroom.reserva.Reservavel;
 import com.example.bookaroom.util.Periodo;
 import dados.teste.DataSource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class BookARoom {
@@ -30,6 +32,14 @@ public class BookARoom {
 
     public List<Reserva> getMinhasReservas() {
         return new ReservaControlador().filtrarPor(sessionFuncionario).get();
+    }
+
+    public List<Reserva> getMinhasReservas(Boolean status) {
+        ReservaControlador minhasReservas = new ReservaControlador().filtrarPor(sessionFuncionario);
+
+        if(status) return minhasReservas.ativas().get();
+
+        return minhasReservas.inativas().get();
     }
 
     public List<Predio> getPredios() {

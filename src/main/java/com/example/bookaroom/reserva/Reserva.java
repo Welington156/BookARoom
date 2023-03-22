@@ -6,18 +6,24 @@ import com.example.bookaroom.campus.Sala;
 import com.example.bookaroom.util.Periodo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Reserva implements Comparable<Reserva> {
-    private LocalDate dataAlocacao;
-    private LocalTime horaInicio;
-    private LocalTime horaFim;
-    private String assunto;
-    private Sala sala;
-    private Funcionario funcionario;
-    private List<Equipamento> equipamentos;
+    private final LocalDate dataAlocacao;
+    private final LocalTime horaInicio;
+    private final LocalTime horaFim;
+    private final String assunto;
+    private final Sala sala;
+    private final Funcionario funcionario;
+    private final List<Equipamento> equipamentos;
+
+
+    public boolean ativo() {
+        return this.getPeriodo().getFim().isAfter(LocalDateTime.now());
+    }
 
 
     @Override
@@ -44,11 +50,9 @@ public class Reserva implements Comparable<Reserva> {
         this.assunto = assunto;
         this.horaInicio = periodo.horaInicio;
         this.horaFim = periodo.horaFim;
-        this.dataAlocacao = periodo.data;
+        this.dataAlocacao = periodo.dataInicio;
         this.equipamentos = equipamentos;
     }
-
-    public Reserva() {}
 
     //  </editor-fold>
 

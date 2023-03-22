@@ -1,6 +1,5 @@
 package com.example.bookaroom.reserva;
 
-import com.example.bookaroom.campus.Equipamento;
 import dados.teste.DataSource;
 
 import java.util.*;
@@ -30,6 +29,14 @@ public class ReservaControlador {
         return new ReservaControlador(reservasStream.toList());
     }
 
+    public ReservaControlador ativas() {
+        return new ReservaControlador(reservas.stream().filter(Reserva::ativo).toList());
+    }
+
+    public ReservaControlador inativas() {
+        return new ReservaControlador(reservas.stream().filter(reserva -> !reserva.ativo()).toList());
+    }
+
     public boolean hasAny() {
         return !reservas.isEmpty();
     }
@@ -39,8 +46,8 @@ public class ReservaControlador {
     }
 
 
-    public static Reserva updateReserva(Reserva reserva) {
-        return DataSource.updateReserva(reserva);
+    public static void updateReserva(Reserva reserva) {
+        DataSource.updateReserva(reserva);
     }
 
     public static Reserva cadastrarReserva(Reserva novaReserva) throws IllegalStateException {
